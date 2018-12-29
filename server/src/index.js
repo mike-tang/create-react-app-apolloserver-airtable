@@ -3,14 +3,18 @@ const { ApolloServer, gql } = require('apollo-server')
 // This is a (sample) collection of books we'll be able to query
 // the GraphQL server for. A more complete example might fetch
 // from an existing data source like a REST API or database.
-const books = [
+const guests = [
   {
-    title: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
+    id: 111,
+    email: 'michael.c.tang@gmail.com',
+    firstName: 'Mike',
+    lastName: 'Tang',
   },
   {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
+    id: 222,
+    email: 'candiyang@gmail.com',
+    firstName: 'Candice',
+    lastName: 'Yang',
   },
 ];
 
@@ -20,15 +24,19 @@ const typeDefs = gql`
   # Comments in GraphQL are defined with the hash (#) symbol.
 
   # This "Book" type can be used in other type declarations.
-  type Book {
-    title: String
-    author: String
+  type Guest {
+    id: ID!
+    email: String
+    firstName: String!
+    lastName: String!
   }
 
   # The "Query" type is the root of all GraphQL queries.
   # (A "Mutation" type will be covered later on.)
   type Query {
-    books: [Book]
+    guests: [Guest]
+    guest(id: ID!): Guest
+    # me: User
   }
 `;
 
@@ -37,14 +45,17 @@ const typeDefs = gql`
 // schema.  We'll retrieve books from the "books" array above.
 const resolvers = {
   Query: {
-    books: () => books,
+    guests: () => guests,
   },
 };
 
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
 // responsible for fetching the data for those types.
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ 
+  typeDefs, 
+  resolvers,
+});
 
 // This `listen` method launches a web-server.  Existing apps
 // can utilize middleware options, which we'll discuss later.
