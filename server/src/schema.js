@@ -12,6 +12,7 @@ const typeDefs = gql`
     firstName: String!
     lastName: String!
     groupId: ID!
+    rsvp: String!
   }
 
   # The "Query" type is the root of all GraphQL queries.
@@ -22,6 +23,16 @@ const typeDefs = gql`
     # guest(email: String!): Guest
     # me: User
   }
+
+  type Mutation {
+    # NEED TO FIX MUTATION TO ACCESS RESPONSE
+    updateGuest(id: ID!, rsvp: String!): Guest!
+  }
+
+  # type RsvpUpdateResponse {
+  #   success: Boolean!
+  #   message: String
+  # }
 `;
 
 module.exports = typeDefs;

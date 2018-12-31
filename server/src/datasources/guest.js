@@ -7,6 +7,7 @@ const guestReducer = (rawGuestData) => ({
   firstName: rawGuestData.fields.First_Name,
   lastName: rawGuestData.fields.Last_Name,
   groupId: rawGuestData.fields.Group_ID,
+  rsvp: rawGuestData.fields.RSVP,
 })
 
 class GuestAPI extends RESTDataSource {
@@ -24,9 +25,21 @@ class GuestAPI extends RESTDataSource {
   }
 
   async getGuestById(id) {
-    const res = await this.get(id);
-    return res ? guestReducer(res) : null;
+    const guest = await this.get(id);
+    return guest ? guestReducer(guest) : null;
   }
+
+  async updateGuestById(id, rsvp) {
+    return this.patch(
+      id,
+      { 
+        "fields": {
+          "RSVP" : rsvp 
+        }
+      },
+    );
+  }
+  
 }
 
 module.exports = GuestAPI;
